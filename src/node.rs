@@ -24,7 +24,7 @@ use core::fmt;
 /// }
 /// ```
 pub struct Node<'a> {
-    pub(crate) left: Cell<Option<&'a Node<'a>>>,
+    pub(crate) left:  Cell<Option<&'a Node<'a>>>,
     pub(crate) right: Cell<Option<&'a Node<'a>>>,
 }
 
@@ -32,7 +32,7 @@ impl<'a> Default for Node<'a> {
     #[inline]
     fn default() -> Node<'a> {
         Node {
-            left: Cell::new(None),
+            left:  Cell::new(None),
             right: Cell::new(None),
         }
     }

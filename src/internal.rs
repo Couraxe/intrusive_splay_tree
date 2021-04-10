@@ -23,7 +23,7 @@ unsafe fn unchecked_unwrap<T>(o: Option<T>) -> T {
     use unreachable::unreachable;
     match o {
         Some(t) => t,
-        None => unreachable(),
+        None    => unreachable(),
     }
 }
 
@@ -92,16 +92,16 @@ impl<'a> SplayTree<'a> {
 
         match key.compare_to_node(root) {
             cmp::Ordering::Equal => return false,
-            cmp::Ordering::Less => {
+            cmp::Ordering::Less  => {
                 node.left.set(root.left.get());
                 node.right.set(Some(root));
                 root.left.set(None);
-            }
+            },
             cmp::Ordering::Greater => {
                 node.right.set(root.right.get());
                 node.left.set(Some(root));
                 root.right.set(None);
-            }
+            },
         }
 
         self.root = Some(node);
@@ -152,11 +152,11 @@ impl<'a> SplayTree<'a> {
     unsafe fn splay(&mut self, key: &dyn CompareToNode<'a>) {
         let mut current = match self.root {
             Some(r) => r,
-            None => return,
+            None    => return,
         };
 
         let null = Node::default();
-        let mut left = &null;
+        let mut left  = &null;
         let mut right = &null;
 
         loop {
@@ -170,9 +170,10 @@ impl<'a> SplayTree<'a> {
                                 current.left.set(current_left.right.get());
                                 current_left.right.set(Some(current));
                                 current = current_left;
+
                                 match current.left.get() {
                                     Some(l) => current_left = l,
-                                    None => break,
+                                    None    => break,
                                 }
                             }
                             // Link right.
@@ -181,7 +182,7 @@ impl<'a> SplayTree<'a> {
                             current = current_left;
                         }
                     }
-                }
+                },
                 cmp::Ordering::Greater => {
                     match current.right.get() {
                         None => break,
@@ -191,6 +192,7 @@ impl<'a> SplayTree<'a> {
                                 current.right.set(current_right.left.get());
                                 current_right.left.set(Some(current));
                                 current = current_right;
+                                
                                 match current_right.right.get() {
                                     Some(r) => current_right = r,
                                     None => break,
@@ -200,9 +202,9 @@ impl<'a> SplayTree<'a> {
                             left.right.set(Some(current));
                             left = current;
                             current = current_right;
-                        }
+                        },
                     }
-                }
+                },
                 cmp::Ordering::Equal => break,
             }
         }
